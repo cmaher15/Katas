@@ -64,24 +64,29 @@ Nima's Famous Dijon Raisins
 This one is a doozy! We might want to start by creating a helper function called ingredientCheck() that will take in one bakery at a time, along with the recipes.ingredients array to check if the given bakery possesses any of the ingredients from that recipe.
 
 */
-
-
-
-    let chooseRecipe = function  (bakeryA, bakeryB, recipes) {
-        let Ingredients = bakeryA + bakeryB
-        let recipeOptions = ''
-        recipes.forEach(recipes => {
-            for (let i = 0; i < recipes.ingredients.length; i++) {
-                let ingredientOne = recipes.ingredients[i];
-                let ingredientTwo = recipes.ingredients[i+1];
-                if (Ingredients.includes(ingredientOne) && Ingredients.includes(ingredientTwo)) {
-                recipeOptions = recipes.name
-            }
-        }
-        });
-
-        return recipeOptions
+let bakeryStock = function (bakeryStock, ingredient) {
+    for (let i = 0; i < bakeryStock.length; i++) {
+        if (bakeryStock[i] === ingredient) {
+        return true
     }
+}
+return false
+}
+
+let chooseRecipe = function (bakeryA, bakeryB, recipes) {
+    for (let i = 0; i < recipes.length; i++) {
+        let recipeIngredients = recipes[i].ingredients
+        let ingredientOne = recipeIngredients[0]
+        let ingredientTwo = recipeIngredients[1]
+
+        if (bakeryStock(bakeryA, ingredientOne) && bakeryStock(bakeryB, ingredientTwo) || (bakeryStock(bakeryA, ingredientTwo) && (bakeryStock(bakeryB, ingredientOne))))
+    {return recipes[i].name
+} 
+}
+}
+
+
+
 
 let bakeryA = ['saffron', 'eggs', 'tomato paste', 'coconut', 'custard'];
 let bakeryB = ['milk', 'butter', 'cream cheese'];
@@ -122,29 +127,41 @@ recipes = [
 console.log(chooseRecipe(bakeryA, bakeryB, recipes));
 
 /*ANALYSIS OF THIS CODE:
-    let chooseRecipe = function  (bakeryA, bakeryB, recipes) {
-        1. We define our function and tell it to take in three parameters:
+let bakeryStock = function (bakeryStock, ingredient) {
+    for (let i = 0; i < bakeryStock.length; i++) {
+        if (bakeryStock[i] === ingredient) {
+        return true
+    }
+}
+return false
+}
+        1. Here, we are setting up our 'helper' function. We are creating a function which will look at the ingredients of each bakery, and if they match the ingredients in the recipe, the function will return true. If none of the ingredients match, false will be returned. We use a loop to iterate through the bakery arrays to look for these ingredients, and we use [i] to call the loop back.
+
+let chooseRecipe = function (bakeryA, bakeryB, recipes) {
+
+        2. Here we define our main function, "Choose Recipe". This function will take in the three required parameters:
             bakeryA (an array)
             bakeryB (an array)
-            recipes (an object containing two keys, name and ingredients)
-        let Ingredients = bakeryA + bakeryB
-            2. We are defining a variable that will add the ingredients in the bakeryA array and the bakeryB array together
-        let recipeOptions = ''
-                3. We define another new variable which will hold the string with the recipe names in our output.
-        recipes.forEach(recipes => {
-                    4. we are using the .forEach() method to look at the recipes object. The method will look through this object and find each element that fits our code below.
-            for (let i = 0; i < recipes.ingredients.length; i++) {
-                        5. We create a loop which will look through all of the INGREDIENTS keys from our recipes object. 
-                let ingredientOne = recipes.ingredients[i];
-                let ingredientTwo = recipes.ingredients[i+1];
-                            6. Here, we are telling our code to define two ingredients. The first will be ingredientOne, which will be the first item that our loop finds. ingredientTwo will be the second item the loop finds (hence i+1)
-                if (Ingredients.includes(ingredientOne) && Ingredients.includes(ingredientTwo)) {
-                recipeOptions = recipes.name
-                                7. This part of our code is saying that if the ingredients in bakery A or bakery B match the ingredients listed in the recipe, to report back the name of that recipe. We define the recipes.name as a variable so that we can return it (which we do below)
-            }
-        }
-        });
+            Recipes (an object)
 
-        return recipeOptions
-    }
+    for (let i = 0; i < recipes.length; i++) {
+
+        3. Here we create a loop which will iterate through the different recipes.
+
+        let recipeIngredients = recipes[i].ingredients
+        let ingredientOne = recipeIngredients[0]
+        let ingredientTwo = recipeIngredients[1]
+
+        4. We now create three separate variables. the recipe ingredients, which will be found with our loop. ingredientOne, which will be the FIRST matching ingredient the loop finds in bakeryA or bakeryB that matches the recipe ingredients. And ingredientTwo, which will be the SECOND matching ingredient. These are defined using [0] and [1] respectively, representing the array positions. 
+
+        if (bakeryStock(bakeryA, ingredientOne) && bakeryStock(bakeryB, ingredientTwo) || (bakeryStock(bakeryA, ingredientTwo) && (bakeryStock(bakeryB, ingredientOne))))
+        
+        5. Here, we are telling our code what to do. If the stock from bakeryA matches the ingredientOne and the stock from bakeryB matches ingredientTwo, OR VICE VERSA, the names of the eligible recipes will be returned. 
+
+
+    {return recipes[i].name
+} 
+}
+}
+
 */
